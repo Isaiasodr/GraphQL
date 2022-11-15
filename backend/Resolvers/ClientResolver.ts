@@ -1,4 +1,5 @@
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { CreateClientInput, EditClientInput } from "../inputs/Clientinput";
 import { Client } from "../models/Clients";
 import { ClientMongo } from "../mongodb/models/Client";
 
@@ -8,12 +9,31 @@ export class ClientResolver {
   async clients() {
     return await ClientMongo.find();
   }
+
   @Query(() => Client)
+  async client(@Arg("id") id: string) {
+    return await ClientMongo.findOne({ _id: id });
+  }
+
+  @Mutation(() => Client)
   async createClient(
-    @Arg("name") name: string,
-    @Arg("email") email: string,
-    @Arg("cpf") cpf: string,
-    @Arg("address") address: string,
-    @Arg("phone") phone: string
-  ) {}
+    @Arg("createClientObject") createClientObject: CreateClientInput
+  ) {
+    const { name, address, cpf, email, phone } = createClientObject;
+    return await ClientMongo.create({
+      name,
+      address,
+      cpf,
+      email,
+      phone,
+    });
+  }
+
+  @Mutation(() => Client)
+  async editClient(@Arg("editClientObject") EditClientObject: EditClientInput) {
+    const client = { ...EditClientObject };
+
+    await ClientMongo.updateOne({ _id: client.id }, client);
+    return client;
+  }
 }

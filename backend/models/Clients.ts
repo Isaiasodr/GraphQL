@@ -12,6 +12,9 @@ export class Client {
   cpf: string;
 
   @Field()
+  email: string;
+
+  @Field()
   address: string;
 
   @Field()

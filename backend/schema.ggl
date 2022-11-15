@@ -6,12 +6,35 @@
 type Client {
   address: String!
   cpf: String!
+  email: String!
   id: ID!
   name: String!
   phone: String!
 }
 
+input CreateClientInput {
+  address: String!
+  cpf: String!
+  email: String!
+  name: String!
+  phone: String!
+}
+
+input EditClientInput {
+  address: String!
+  cpf: String!
+  email: String!
+  id: ID!
+  name: String!
+  phone: String!
+}
+
+type Mutation {
+  createClient(createClientObject: CreateClientInput!): Client!
+  editClient(editClientObject: EditClientInput!): Client!
+}
+
 type Query {
+  client(id: String!): Client!
   clients: [Client!]!
-  createClient(address: String!, cpf: String!, email: String!, name: String!, phone: String!): Client!
 }
