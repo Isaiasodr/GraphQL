@@ -17,10 +17,12 @@ export class CreateClientInput {
   @Field()
   phone: string;
 }
+
 @InputType()
 export class EditClientInput {
   @Field((type) => ID)
   id: string;
+
   @Field()
   name: string;
 

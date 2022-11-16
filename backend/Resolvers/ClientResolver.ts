@@ -36,4 +36,10 @@ export class ClientResolver {
     await ClientMongo.updateOne({ _id: client.id }, client);
     return client;
   }
+
+  @Mutation(() => String)
+  async deleteClient(@Arg("id") id: string) {
+    await ClientMongo.deleteOne({ _id: id });
+    return id;
+  }
 }
